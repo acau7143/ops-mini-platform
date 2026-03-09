@@ -1,4 +1,4 @@
-\# Ops Mini Platform (12주)
+# Ops Mini Platform (12주)
 
 
 
@@ -8,33 +8,33 @@
 
 
 
-\## 목표
+## 목표
 
-\- 리눅스 서버 운영/점검/복구 능력 강화
+- 리눅스 서버 운영/점검/복구 능력 강화
 
-\- 의도적 장애 재현 → 원인 분석 → 복구 → 재발 방지 문서화
+- 의도적 장애 재현 → 원인 분석 → 복구 → 재발 방지 문서화
 
-\- Terraform 기반 재현 가능한 인프라(IaC) 구축
-
-
-
-\## 현재 진행 상황
-
-\- Day1: EC2 접속 및 Nginx 실행 확인, `curl -I http://localhost` → 200 OK
+- Terraform 기반 재현 가능한 인프라(IaC) 구축
 
 
 
-\## 레포 구조
+## 현재 진행 상황
 
-\- `runbook/` : 운영 절차(접속/배포/점검/복구)
-
-\- `decisions/` : 의사결정 기록(왜 이렇게 설계했는지)
-
-\- `diary/` : 일일 기록(진행 로그)
+- Day1: EC2 접속 및 Nginx 실행 확인, `curl -I http://localhost` → 200 OK
 
 
 
-\## 링크
+## 레포 구조
 
-\- Runbook 목차: `runbook/index.md`
+- `runbook/` : 운영 절차(접속/배포/점검/복구)
+
+- `decisions/` : 의사결정 기록(왜 이렇게 설계했는지)
+
+- `diary/` : 일일 기록(진행 로그)
+
+
+
+## 링크
+
+- Runbook 목차: `runbook/index.md`
 

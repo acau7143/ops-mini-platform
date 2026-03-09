@@ -1,14 +1,14 @@
-\# Access (Day1)
+# Access (Day1)
 
 
 
-\## 인스턴스 기본
+## 인스턴스 기본
 
-\- OS: Ubuntu 22.04 LTS (예정/사용)
+- OS: Ubuntu 22.04 LTS (예정/사용)
 
-\- SSH 사용자: ubuntu
+- SSH 사용자: ubuntu
 
-\- Security Group Inbound (Day1 기준)
+- Security Group Inbound (Day1 기준)
 
 &nbsp; - 22/tcp: 내 IP
 
@@ -16,7 +16,7 @@
 
 
 
-\## Nginx 상태 확인/검증
+## Nginx 상태 확인/검증
 
 ```bash
 
