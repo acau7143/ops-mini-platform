@@ -21,15 +21,15 @@
 ## 현재 진행 상황
 
 - Day1: EC2 접속 및 Nginx 실행 확인, `curl -I http://localhost` → 200 OK
-
+- Day2: 외부(Public IP) HTTP 접근 확인, UFW로 80 차단/복구 재현, 첫 Incident 문서 작성
 
 
 ## 레포 구조
 
 - `runbook/` : 운영 절차(접속/배포/점검/복구)
-
+- `incidents/` : 장애 기록(증상, 원인, 복구, 재발 방지)
+- `evidence/` : 검증 결과 및 스크린샷/출력 캡처
 - `decisions/` : 의사결정 기록(왜 이렇게 설계했는지)
-
 - `diary/` : 일일 기록(진행 로그)
 
 
