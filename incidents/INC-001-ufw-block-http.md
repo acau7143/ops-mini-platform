@@ -71,10 +71,10 @@ UFW 정책 변경으로 인해 EC2 외부에서 HTTP(80) 접속이 실패했다.
 ```bash
 
 sudo ufw allow 80/tcp
+```
 
 
-
-## Preventive Actions
+##Preventive Actions
 
 
 
@@ -90,7 +90,7 @@ sudo ufw allow 80/tcp
 
 
 
-##  Evidence
+## Evidence
 
 
 
