@@ -10,7 +10,7 @@ UFW 정책 변경으로 인해 EC2 외부에서 HTTP(80) 접속이 실패했다.
 
 ## Impact
 
-- External client → `http://<PUBLIC\_IP>` 접속 실패
+- External client → `http://<PUBLIC_IP>` 접속 실패
 
 - Internal localhost → 정상 응답
 
@@ -20,7 +20,7 @@ UFW 정책 변경으로 인해 EC2 외부에서 HTTP(80) 접속이 실패했다.
 
 ## Detection
 
-- Local PC에서 `curl -I http://<PUBLIC\_IP>` 실패
+- Local PC에서 `curl -I http://<PUBLIC_IP>` 실패
 
 - EC2에서 `curl -I http://localhost`는 200 OK
 
@@ -55,13 +55,9 @@ UFW 정책 변경으로 인해 EC2 외부에서 HTTP(80) 접속이 실패했다.
 ## Verification Commands
 
 - `systemctl is-active nginx`
-
 - `curl -I http://localhost`
-
 - `curl -I http://<PUBLIC\_IP>`
-
 - `sudo ufw status verbose`
-
 - `ss -lntp | grep :80`
 
 
@@ -75,28 +71,12 @@ sudo ufw allow 80/tcp
 
 
 ##Preventive Actions
-
-
-
 -외부 장애 발생 시 nginx 상태와 방화벽 상태를 분리해서 점검한다.
-
-
-
 -서비스(localhost) 정상 여부와 외부 접근(Public IP) 여부를 함께 확인한다.
-
-
-
 -UFW 변경 전/후 상태를 evidence로 남긴다.
-
-
 
 ## Evidence
 
-
-
 ![image.png](../images/02_1.png)
-
-
-
 ![image.png](../images/02_2.png)
 

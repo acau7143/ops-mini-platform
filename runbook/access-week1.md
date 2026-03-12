@@ -62,3 +62,34 @@ curl -I http://localhost
 sudo ufw allow 80/tcp
 sudo ufw status numbered
 ```
+
+
+
+## Nginx 설정 변경 전 백업/검증
+
+&nbsp;- 설정 변경 전 원본 파일을 백업한다.
+&nbsp;- 변경 후에는 `sudo nginx -t` 로 문법 검사를 먼저 수행한다.
+&nbsp;- 검사 성공 후에만 `sudo systemctl reload nginx` 를 실행한다.
+&nbsp;- 검사 실패 시 백업 파일로 즉시 원복한다.
+
+```bash
+sudo cp /etc/nginx/sites-available/default /etc/nginx/sites-available/default.bak
+sudo nginx -t
+sudo systemctl reload nginx
+```
+
+## SSH 설정 변경 시 안전 절차
+
+&nbsp;- 현재 SSH 세션을 유지한 상태에서 설정 파일을 수정한다.
+&nbsp;- 설정 변경 전 sshd_config 파일을 백업한다.
+&nbsp;- 설정 변경 후 sudo sshd -t 로 문법 검사를 먼저 수행한다.
+&nbsp;- 검사 성공 후 sudo systemctl reload ssh 를 실행한다.
+&nbsp;- 새 터미널 또는 새 SSH 세션에서 재접속 성공을 확인하기 전까지 기존 세션을 종료하지 않는다.
+&nbsp;- 재접속 실패 시 기존 세션으로 백업 파일을 복구하고 다시 reload 한다.
+
+```bash
+sudo cp /etc/ssh/sshd_config /etc/ssh/sshd_config.bak
+sudo nano /etc/ssh/sshd_config
+sudo sshd -t
+sudo systemctl reload ssh
+```

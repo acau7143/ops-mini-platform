@@ -23,6 +23,7 @@
 - Day1: EC2 접속 및 Nginx 실행 확인, `curl -I http://localhost` → 200 OK
 - Day2: 외부(Public IP) HTTP 접근 확인, UFW로 80 차단/복구 재현, 첫 Incident 문서 작성
 - Day3: `healthcheck.sh` 작성 nginx active / localhost HTTP 응답 / port 80 listening 자동 확인 시작
+- Day4-5: Nginx 설정 백업 및 `nginx -t` 검증 절차 고정, 문법 오류 재현/복구 수행, SSH 보안 설정 1차 적용 및 안전 재접속 절차 문서화
 
 ## 레포 구조
 

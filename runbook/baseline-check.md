@@ -10,7 +10,7 @@
 
 ## Fixed Validation Commands
 
-1\. 서버 업타임 확인
+1. 서버 업타임 확인
 
 &nbsp;  - `uptime`
 
