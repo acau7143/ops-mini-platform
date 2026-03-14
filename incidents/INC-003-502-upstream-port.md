@@ -68,7 +68,7 @@ Low
 
 - 502 응답 캡처
 
-![image.png](../evidence/day6-CURL 502-error.png)
+![image.png](../evidence/day6-CURL-502-error.png)
 
 - error.log 캡처
 
