@@ -82,7 +82,7 @@ Low
 
 1. nginx 설정 파일에 `/app/` reverse proxy location 추가
 
-2. `proxy\_pass http://127.0.0.1:9999;` 로 설정
+2. `proxy_pass http://127.0.0.1:9999;` 로 설정
 
 3. `sudo nginx -t` 로 문법 확인
 
@@ -90,13 +90,13 @@ Low
 
 5. `curl -I http://localhost/app/` 로 502 확인
 
-6. `./scripts/log\_snapshot.sh` 실행
+6. `./scripts/log_snapshot.sh` 실행
 
 7. `sudo tail -n 50 /var/log/nginx/error.log` 로 원인 단서 확인
 
 8. `/app/` 설정을 원복 또는 정상 포트로 수정
 
-9. 다시 `sudo nginx -t \&\& sudo systemctl reload nginx`
+9. 다시 `sudo nginx -t && sudo systemctl reload nginx`
 
 10. 복구 후 healthcheck 및 재검증 수행
 
