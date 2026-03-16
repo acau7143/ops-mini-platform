@@ -25,6 +25,8 @@
 - Day3: `healthcheck.sh` 작성 nginx active / localhost HTTP 응답 / port 80 listening 자동 확인 시작
 - Day4-5: Nginx 설정 백업 및 `nginx -t` 검증 절차 고정, 문법 오류 재현/복구 수행, SSH 보안 설정 1차 적용 및 안전 재접속 절차 문서화
 - Day6: `healthcheck.sh` 업그레이드, `log_snapshot.sh` 작성, `/app/` reverse proxy 설정으로 502 재현 및 증거 수집, incident 문서화
+- Day7: Runbook 목차 정리, Week1 회고 작성, 기존 incident 재리허설
+
 
 ## 레포 구조
 
@@ -36,7 +38,5 @@
 
 
 
-## 링크
 
-- Runbook 목차: `runbook/index.md`
 
