@@ -57,6 +57,12 @@
 &nbsp;  - `tail -n 20 /var/log/nginx/error.log`
 
 
+9. 앱 컨테이너 실행 상태 확인
+&nbsp;   - `docker ps`
+
+
+10. 앱 HTTP 응답 확인
+&nbsp;   - `curl -I http://localhost:8080`
 
 ## Normal Expectations
 

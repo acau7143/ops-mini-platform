@@ -26,8 +26,8 @@
 - Day4-5: Nginx 설정 백업 및 `nginx -t` 검증 절차 고정, 문법 오류 재현/복구 수행, SSH 보안 설정 1차 적용 및 안전 재접속 절차 문서화
 - Day6: `healthcheck.sh` 업그레이드, `log_snapshot.sh` 작성, `/app/` reverse proxy 설정으로 502 재현 및 증거 수집, incident 문서화
 - Day7: Runbook 목차 정리, Week1 회고 작성, 기존 incident 재리허설
-- Day8: Docker Engine 설치, `docker version`/`docker ps` 검증, Docker 서비스 stop/start 장애 재현 및 복구,           
-  `runbook/docker.md`와 `INC-005-docker-service-down.md` 작성
+- Day8: Docker Engine 설치, `docker version`/`docker ps` 검증, Docker 서비스 stop/start 장애 재현 및 복구
+- Day9: 테스트 앱 컨테이너 실행, 포트 매핑 8080:8080 오류 재현 후 8080:80으로 수정하여 복구
 
 ## 레포 구조
 
