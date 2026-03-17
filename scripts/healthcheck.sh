@@ -7,6 +7,13 @@ YELLOW='\033[0;33m'   # 노랑 (경고)
 NC='\033[0m'          # 색상 해제
 
 
+# script 실행 할 때 sudo 를 붙였는지 검사
+if [ "$EUID" -ne 0 ]; then
+  echo "Please run with sudo"
+  exit 1
+fi
+
+
 # 현재 시간
 TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
 
@@ -69,6 +76,15 @@ tail -n 20 /var/log/nginx/access.log
 # ===== Check 8: nginx error log 최근 20줄 =====
 echo "8. nginx Error Log (last 20 lines)"
 tail -n 20 /var/log/nginx/error.log
+
+#9. 앱 컨테이너 실행 상태 확인
+echo "9. Docker Container Status"
+docker ps
+
+#10. 앱 HTTP 응답 확인
+echo "10. App HTTP Check"
+curl -I http://localhost:8080
+
 
 # ===== 최종 결과 =====
 echo "=========================================="
