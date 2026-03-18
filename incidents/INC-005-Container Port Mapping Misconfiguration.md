@@ -1,3 +1,5 @@
+# INC-005-Container Port Mapping Misconfiguration
+
 ## Summary
 
 테스트 앱 컨테이너를 실행하는 과정에서 포트 매핑을 잘못 지정하여 `localhost:8080` 접속이 실패했다. 컨테이너 자체는 실행 중이었지만 요청이 실제 서비스가 동작하는 포트에 전달되지 않아 HTTP 접근이 불가능했다.

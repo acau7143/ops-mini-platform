@@ -1,4 +1,4 @@
-# INC-005 — Docker service down
+# INC-004 — Docker service down
 
 
 
@@ -6,6 +6,10 @@
 
 Docker 서비스 중지 및 복구 절차를 실습하는 과정에서 `docker.service`만 중지하면 Docker가 완전히 내려가지 않는다는 점을 확인했다. 이후 `docker.socket` 까지 함께 중지해 실제 장애 상태를 재현했고 다시 시작하여 정상 복구를 확인했다.
 
+
+## Severity
+
+Low
 
 
 ## Symptoms

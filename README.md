@@ -28,6 +28,7 @@
 - Day7: Runbook 목차 정리, Week1 회고 작성, 기존 incident 재리허설
 - Day8: Docker Engine 설치, `docker version`/`docker ps` 검증, Docker 서비스 stop/start 장애 재현 및 복구
 - Day9: 테스트 앱 컨테이너 실행, 포트 매핑 8080:8080 오류 재현 후 8080:80으로 수정하여 복구
+- Day10: Nginx `/app` reverse proxy를 Docker 앱(`127.0.0.1:8080`)에 연결하고, upstream 포트 오타로 `502 Bad Gateway`를 재현한 뒤 `error.log` 확인 후 복구
 
 ## 레포 구조
 
