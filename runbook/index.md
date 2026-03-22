@@ -6,9 +6,9 @@
 
 \- \[baseline-check.md](./baseline-check.md)
 
-\- nginx.md (작성 예정)
+\- \[nginx.md](./nginx.md)
 
-\- docker.md (작성 예정)
+\- \[docker.md](./docker.md)
 
 \- deploy.md (작성 예정)
 

@@ -38,7 +38,37 @@
 - `decisions/` : 의사결정 기록(왜 이렇게 설계했는지)
 - `diary/` : 일일 기록(진행 로그)
 
+## Architecture
 
+- EC2 위에 Nginx가 리버스 프록시로 동작하며, 
+- Docker 컨테이너(test-app)로 트래픽을 전달합니다.
+- healthcheck.sh와 log_snapshot.sh로 상태를 모니터링하고,
+- 모든 운영 산출물은 GitHub에 기록합니다.
 
+```mermaid
+graph TD
+    Client["Client (Internet)"]
+    
+    subgraph EC2["AWS EC2 (Ubuntu 22.04) — UFW: 22, 80 open"]
+        Nginx["Nginx (Reverse Proxy)\nport 80 → proxy_pass :8080"]
+        
+        subgraph Docker["Docker"]
+            App["test-app container\nnginx:alpine  8080:80"]
+        end
+        
+        HC["healthcheck.sh\ncurl / systemctl check"]
+        LS["log_snapshot.sh\naccess / error log"]
+    end
+    
+    GH["GitHub\nrunbook / incident / diary"]
+    Docs["Ops Docs\nIncident / Runbook / Diary"]
+
+    Client -->|"HTTP :80"| Nginx
+    Nginx -->|":8080"| App
+    HC -.->|"monitor"| Nginx
+    LS -.->|"collect"| Nginx
+    Docs -.->|"push artifacts"| GH
+    HC -.-> GH
+```
 
 
