@@ -10,9 +10,9 @@
 
 \- \[docker.md](./docker.md)
 
-\- deploy.md (작성 예정)
+\- \[deploy.md](./deploy.md)   
 
-\- rollback.md (작성 예정)
+\- \[rollback.md](./rollback.md)    
 
 \- monitoring-response.md (작성 예정)
 
