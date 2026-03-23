@@ -1,18 +1,16 @@
 \# Runbook 목차
 
+\[access.md](./access.md)
 
+\[baseline-check.md](./baseline-check.md)
 
-\- \[access.md](./access.md)
+\[nginx.md](./nginx.md)
 
-\- \[baseline-check.md](./baseline-check.md)
+\[docker.md](./docker.md)
 
-\- \[nginx.md](./nginx.md)
+\[deploy.md](./deploy.md)
 
-\- \[docker.md](./docker.md)
+\[rollback.md](./rollback.md)
 
-\- \[deploy.md](./deploy.md)   
-
-\- \[rollback.md](./rollback.md)    
-
-\- monitoring-response.md (작성 예정)
+monitoring-response.md (작성 예정)
 
