@@ -91,8 +91,10 @@ docker logs test-app
  
 ## Evidence
  
-<!-- compose up 정상 출력 캡처 -->![image.png](../evidence/day13-docker-compose-fail.png)
+<!-- compose up 정상 출력 캡처 -->
+![image.png](../evidence/day13-docker-compose-fail.png)
 
-<!-- 포트 오류 재현 캡처 -->![image.png](../evidence/day13-docker-compose-up.png)
+<!-- 포트 오류 재현 캡처 -->
+![image.png](../evidence/day13-docker-compose-up.png)
 
  
