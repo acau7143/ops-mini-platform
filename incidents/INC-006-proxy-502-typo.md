@@ -11,7 +11,7 @@ Low
 ## Impact
 
 호스트 nginx 서비스 자체에는 큰 영향이 없었지만, `/app` 경로를 통한 Docker 앱 접근이 불가능했다.  
-즉 Day10의 목표인 **Nginx ↔ Docker 앱 연결** 상태가 성립하지 않았고, 외부/public IP 기준 `/app` 접근도 실패했다.
+즉 Day10의 목표인 Nginx ↔ Docker 앱 연결 상태가 성립하지 않았고, 외부/public IP 기준 `/app` 접근도 실패했다.
 
 ## Detection
 
