@@ -29,6 +29,9 @@
 - Day8: Docker Engine 설치, `docker version`/`docker ps` 검증, Docker 서비스 stop/start 장애 재현 및 복구
 - Day9: 테스트 앱 컨테이너 실행, 포트 매핑 8080:8080 오류 재현 후 8080:80으로 수정하여 복구
 - Day10: Nginx `/app` reverse proxy를 Docker 앱(`127.0.0.1:8080`)에 연결하고, upstream 포트 오타로 `502 Bad Gateway`를 재현한 뒤 `error.log` 확인 후 복구
+- Day11: deploy.md + rollback.md 작성, nginx reload 누락으로 인한 배포 미반영 재현 및 복구 (INC-007)
+- Day12: 로그 구조 정리, log_snapshot.sh에 docker logs 항목 추가, container 없이 로그 실패 및 복구(INC-008)
+- Day13: docker-compose.yml 작성, docker run 기반 실행을 compose로 전환, 포트 오타 재현 및 복구 (INC-009)
 
 ## 레포 구조
 
