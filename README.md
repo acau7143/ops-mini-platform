@@ -32,7 +32,7 @@
 - Day11: deploy.md + rollback.md 작성, nginx reload 누락으로 인한 배포 미반영 재현 및 복구 (INC-007)
 - Day12: 로그 구조 정리, log_snapshot.sh에 docker logs 항목 추가, container 없이 로그 실패 및 복구(INC-008)
 - Day13: docker-compose.yml 작성, docker run 기반 실행을 compose로 전환, 포트 오타 재현 및 복구 (INC-009)
-
+- Day14: README/index.md 업데이트, INC-005 재리허설, Week2 회고 작성
 ## 레포 구조
 
 - `runbook/` : 운영 절차(접속/배포/점검/복구)
