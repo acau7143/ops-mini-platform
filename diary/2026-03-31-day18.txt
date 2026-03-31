@@ -1,0 +1,65 @@
+# Day18 — Nginx 보안 헤더 적용
+
+## 목표
+
+- nginx 응답에 보안 헤더 3개 추가
+- 버전 정보 노출 제거
+- /app 경로에도 동일하게 적용되는지 확인
+- decisions/0004 작성 및 runbook/nginx.md 업데이트
+
+## 오늘 한 일
+
+- curl -I http://localhost 로 변경 전 상태를 먼저 확인했다.
+  보안 헤더가 전혀 없었고 Server: nginx/1.24.0 (Ubuntu) 로 버전이 노출되어 있었다.
+
+- /etc/nginx/sites-available/default 의 server {} 블록에
+  add_header 3개를 추가했다.
+  - X-Content-Type-Options: nosniff
+  - X-Frame-Options: DENY
+  - X-XSS-Protection: 1; mode=block
+
+- /etc/nginx/nginx.conf 의 http {} 블록에
+  server_tokens off 를 추가해 버전 정보를 숨겼다.
+
+- sudo nginx -t 로 문법 확인 후 sudo systemctl reload nginx 로 반영했다.
+
+- curl -I http://localhost 로 보안 헤더 3개와 버전 정보 제거를 확인했다.
+
+- curl -I http://localhost/app 으로 /app 경로에도 동일하게 적용되는지 확인했다.
+
+## 오늘 배운 점
+
+- server_tokens off 는 nginx.conf(전역)에, add_header 는 sites-available/default(사이트별)에
+  넣는 이유가 있다. 범위가 다르기 때문이다.
+  server_tokens off 는 nginx 전체에 적용되어야 하므로 전역 설정 파일에 넣고
+  add_header 는 이 사이트의 응답에만 붙이는 설정이므로 사이트별 파일에 넣었다.
+
+- nginx는 server {} 블록에 add_header 를 설정해도
+  location {} 블록 안에 별도 add_header 가 있으면 상위 블록 헤더를 무시하는 특성이 있다.
+  오늘은 /app location 블록에 별도 add_header 가 없었기 때문에
+  server {} 의 헤더가 그대로 적용되었다.
+  이 특성을 모르면 "분명히 설정했는데 헤더가 안 붙는다"는 상황이 생길 수 있다.
+
+- X-XSS-Protection 은 최신 브라우저에서 deprecated 되었지만
+  구형 브라우저 대응과 보안 스캐너 점수 기준 때문에 포함했다.
+
+- 보안 헤더는 서버를 직접 지키는 게 아니라 브라우저에게 동작 규칙을 전달하는 방식이다.
+  - X-Content-Type-Options: 브라우저가 파일 타입을 멋대로 판단하지 못하게 막는다
+  - X-Frame-Options: 내 사이트를 다른 페이지의 iframe 안에 넣지 못하게 막는다
+  - X-XSS-Protection: 의심스러운 스크립트가 감지되면 페이지를 차단한다
+
+## 결과/증거
+
+- evidence/day18-before-headers.png (변경 전 curl -I 출력)
+![image.png](../evidence/day18-before-headers.png)
+- evidence/day18-after-headers.png (변경 후 curl -I 출력, 헤더 3개 + 버전 제거 확인)
+![image.png](../evidence/day18-after-headers)
+- evidence/day18-app-headers.png (/app 경로 헤더 적용 확인)
+![image.png](../evidence/day18-app-headers)
+
+
+## 막힌 점
+
+- /app 경로에도 헤더가 적용되는지 처음에는 확인하지 않았다.
+  nginx의 location 블록 특성상 헤더가 무시될 수 있다는 점을 알고 나서
+  별도로 확인하는 습관이 필요하다는 것을 이해했다.
