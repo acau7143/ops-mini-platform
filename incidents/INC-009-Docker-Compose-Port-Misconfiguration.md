@@ -1,4 +1,4 @@
-# INC-009 — Docker Compose Port Misconfiguration
+# INC-009-Docker Compose Port Misconfiguration
  
 ## Summary
  

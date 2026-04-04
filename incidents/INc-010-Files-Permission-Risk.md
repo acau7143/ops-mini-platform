@@ -1,4 +1,4 @@
-# INC-009 — File Permission Risk (chmod 777 / 600)
+# INC-010-File Permission Risk (chmod 777 / 600)
 
 ## Summary
 
