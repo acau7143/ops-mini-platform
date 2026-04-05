@@ -33,6 +33,13 @@
 - Day12: 로그 구조 정리, log_snapshot.sh에 docker logs 항목 추가, container 없이 로그 실패 및 복구(INC-008)
 - Day13: docker-compose.yml 작성, docker run 기반 실행을 compose로 전환, 포트 오타 재현 및 복구 (INC-009)
 - Day14: README/index.md 업데이트, INC-005 재리허설, Week2 회고 작성
+- Day15: incidents 형식 업그레이드 및 획일화, `decisions/0003-incident-severity-sla.md` 작성
+- Day16: `runbook/security-baseline.md` 작성, UFW 비활성화 장애 재현 및 복구
+- Day17: `chmod 777` 위험 권한 재현 → `644` 복구, INC-009 작성
+- Day18: nginx 보안 헤더 적용(`X-Content-Type-Options` 등), `decisions/0004` 작성
+- Day19: `scripts/security-baseline.sh` 작성 (SSH/UFW/권한/포트/스캐너 IP 점검 자동화)
+- Day20: Docker Compose 멀티 컨테이너 구조 전환, nginx 컨테이너 + app 컨테이너 분리, 502 재현 및 복구
+- Day21: Week 3 회고, README 업데이트, `security-baseline.sh` 최종 실행 결과 캡처
 ## 레포 구조
 
 - `runbook/` : 운영 절차(접속/배포/점검/복구)
