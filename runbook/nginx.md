@@ -48,7 +48,6 @@ sudo docker ps
 sudo tail -n 20 /var/log/nginx/error.log
 
 
-
 ## 보안 헤더
 
 ### 적용 항목
@@ -59,6 +58,7 @@ sudo tail -n 20 /var/log/nginx/error.log
 - `add_header X-XSS-Protection "1; mode=block"` → server 블록
 
 ### 검증
+
 ```bash
 curl -I http://localhost
 curl -I http://localhost/app
