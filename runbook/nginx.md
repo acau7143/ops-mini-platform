@@ -46,7 +46,7 @@ sudo tail -n 20 /var/log/nginx/error.log
 curl http://localhost:8080
 sudo docker ps
 sudo tail -n 20 /var/log/nginx/error.log
-
+```
 
 ## 보안 헤더
 
