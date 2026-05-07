@@ -35,11 +35,19 @@
 - Day14: README/index.md 업데이트, INC-005 재리허설, Week2 회고 작성
 - Day15: incidents 형식 업그레이드 및 획일화, `decisions/0003-incident-severity-sla.md` 작성
 - Day16: `runbook/security-baseline.md` 작성, UFW 비활성화 장애 재현 및 복구
-- Day17: `chmod 777` 위험 권한 재현 → `644` 복구, INC-009 작성
+- Day17: `chmod 777` 위험 권한 재현 → `644` 복구, INC-010 작성
 - Day18: nginx 보안 헤더 적용(`X-Content-Type-Options` 등), `decisions/0004` 작성
 - Day19: `scripts/security-baseline.sh` 작성 (SSH/UFW/권한/포트/스캐너 IP 점검 자동화)
 - Day20: Docker Compose 멀티 컨테이너 구조 전환, nginx 컨테이너 + app 컨테이너 분리, 502 재현 및 복구
 - Day21: Week 3 회고, README 업데이트, `security-baseline.sh` 최종 실행 결과 캡처
+- Day22: CloudWatch CPU 알람(`ops-mini-cpu-high`) 생성, `stress`로 알람 트리거 확인, CloudWatch Agent 설치 + `mem_used_percent` 수집
+- Day23: 메모리 알람(`ops-mini-mem-high`) 추가, AWS CLI로 알람 상태 확인, `runbook/monitoring-response.md` 작성
+- Day24: `ab`로 nginx 처리량 기준선 측정, 컨테이너 `mem_limit: 50m`으로 OOM 재현, `OOMKilled: true` 확인 후 복구 (INC-012)
+- Day25: Terraform 도입, `provider.tf` / `main.tf` 작성, `terraform init` / `plan` 실행 확인
+- Day26: `terraform apply` 3회 시도 (IAM 권한 오류 → 인스턴스 타입 오류 → 성공), `terraform destroy`로 정리 (INC-013)
+- Day27: `variables.tf` / `terraform.tfvars` / `outputs.tf` 작성, 하드코딩 제거 후 변수 구조화
+- Day28: Week4 회고, `security-baseline.sh` 심볼릭 링크 오탐 수정 (`find -L`), 고정 validate 전체 PASS 확인
+
 ## 레포 구조
 
 - `runbook/` : 운영 절차(접속/배포/점검/복구)

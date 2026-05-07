@@ -1,0 +1,83 @@
+# Day28 — Week4 회고
+
+## 기간
+Day 22 ~ Day 28
+
+## 목표
+CloudWatch 모니터링, 성능 기준선, Terraform IaC 도입까지
+Week4 전체 작업을 정리하고 현재 인프라 구조를 문서화한다.
+
+## 이번 주에 한 일
+
+### Day22 — CloudWatch CPU 알람 + Agent
+- `observability/` 폴더 생성
+- `ops-mini-cpu-high` 알람 생성 (CPUUtilization > 80%, 5분 1회)
+- `stress --cpu 2 --timeout 300` 으로 CPU 부하 → 알람 트리거 확인
+- CloudWatch Agent 설치 + IAM Role 연결 → `mem_used_percent` 수집 확인
+
+### Day23 — 모니터링 대응 Runbook
+- `ops-mini-mem-high` 알람 추가 (mem_used_percent > 80%)
+- AWS CLI 설치 + `aws cloudwatch describe-alarms` 로 알람 상태 확인
+- `runbook/monitoring-response.md` 작성 — 알람 감지 → 확인 → 조치 → 복구 → 기록 흐름 정리
+
+### Day24 — 성능 기준선 측정 + 컨테이너 OOM 재현
+- `ab -n 1000 -c 10 http://localhost:8080/` 으로 nginx 처리량 기준선 측정
+- `mem_limit: 50m` 으로 app 컨테이너 OOM 재현
+- `docker inspect app | grep -i oomkilled` 로 `OOMKilled: true` 확인
+- `mem_limit` 제거 후 복구, INC-012 작성
+
+### Day25 — Terraform 입문
+- `terraform/provider.tf`, `main.tf` 작성
+- EC2 + 보안그룹 정의, `terraform init` / `plan` 실행 확인
+- apply는 과금 방지로 미실행, `decisions/0007` 작성
+
+### Day26 — Terraform apply + IaC Incident
+- `terraform apply` 3번 시도
+  - 1차: IAM 권한 부족 403 실패
+  - 2차: t2.micro 프리티어 불가 400 실패
+  - 3차: t3.micro로 수정 후 성공
+- `terraform destroy` 로 리소스 정리, INC-013 작성
+
+### Day27 — Terraform 변수 구조화
+- `variables.tf` / `terraform.tfvars` / `outputs.tf` 작성
+- 하드코딩 제거 → `var.변수이름` 참조로 전환
+- `terraform validate` + `plan` 으로 구조 검증
+
+### Day28 — Week4 회고 + security-baseline.sh 수정
+- 고정 validate 실행 → 전체 정상
+- `security-baseline.sh` 실행 → Check 4에서 FAIL 발견
+  - 원인: `find`가 심볼릭 링크 자체의 권한(`rwxrwxrwx`)을 보고 오탐
+  - 수정: `find -L` 옵션 추가로 원본 파일 권한 검사로 전환
+  - 결과: 전체 PASS
+- access.log에서 외부 보안 스캐너(Palo Alto Networks) 접근 흔적 확인
+  - 악의적 접근 아닌 리서치 목적 스캔으로 판단, 서비스 영향 없음
+
+## 현재 인프라 구조
+EC2 (Ubuntu)
+├── 호스트 nginx (port 80)
+│   └── /app → proxy_pass → 127.0.0.1:8080
+├── Docker Compose
+│   ├── nginx-proxy 컨테이너 (port 8080)
+│   └── app 컨테이너 (내부 네트워크)
+├── CloudWatch
+│   ├── ops-mini-cpu-high (CPUUtilization > 80%)
+│   └── ops-mini-mem-high (mem_used_percent > 80%)
+└── Terraform
+├── provider.tf
+├── main.tf
+├── variables.tf
+├── terraform.tfvars
+└── outputs.tf
+
+## 이번 주 배운 점
+
+- CloudWatch 기본 지표는 CPU까지만 수집된다.
+  메모리/디스크는 OS 내부 정보라 Agent 없이는 수집되지 않는다.
+- `terraform plan` 성공이 `apply` 성공을 보장하지 않는다.
+  인스턴스 타입, AMI ID 같은 값은 실제 AWS API 호출 시점에 검증된다.
+- IaC도 incident 대상이다.
+  권한 오류, 인스턴스 타입 오류 모두 배포 실패로 이어질 수 있다.
+- 심볼릭 링크의 권한과 원본 파일의 권한은 다르다.
+  보안 점검에서 링크를 따라가 원본을 검사해야 의미 있는 결과가 나온다.
+- `variables.tf` / `terraform.tfvars` 분리는 구조 선언과 실제 값을 나눠
+  민감한 값을 `.gitignore`로 관리할 수 있게 해준다.

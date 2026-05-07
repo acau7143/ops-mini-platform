@@ -77,7 +77,7 @@ fi
 
 
 # ===== Check 4: nginx 설정 파일 위험 권한 =====
-DANGEROUS_FILES=$(find /etc/nginx -perm -o+w 2>/dev/null)
+DANGEROUS_FILES=$(find -L /etc/nginx -perm -o+w 2>/dev/null)
 # find /etc/nginx : nginx 설정 디렉토리 탐색
 # -perm -o+w : others(누구나)에게 write 권한 있는 파일 찾기
 # 2>/dev/null : 권한 없어서 생기는 에러 메시지 버림
