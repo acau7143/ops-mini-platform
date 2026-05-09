@@ -1,0 +1,63 @@
+# Day30 — AWS 설계 근거 문서화 (VPC/SG/IAM)
+
+## 목표
+
+현재 EC2 인프라가 왜 이런 구조로 만들어졌는지
+VPC, Security Group, IAM Role 관점에서 근거를 정리한다.
+콘솔에서 만든 인프라를 "왜 이렇게 만들었는가"로 설명할 수 있어야
+면접에서 설계 의도를 전달할 수 있다.
+
+## 오늘 한 일
+
+- AWS 콘솔에서 VPC CIDR, 서브넷, Security Group 인바운드 규칙, IAM Role 정책을 직접 확인했다.
+- decisions/0010-aws-network-design.md 작성했다.
+- IAM Role에 붙은 정책 4개가 실제로 필요한 이유를 분석했다.
+- EC2 1대 구조에서 Role 분리의 한계와 실무 개선 방향을 정리했다.
+
+## 오늘 배운 점
+
+- `ss -lntp`와 `ufw status`는 다른 정보를 보여준다.
+  - `ss -lntp` → 프로세스가 실제로 열고 있는 포트
+  - `ufw status` → 방화벽이 통과시켜주는 포트
+  - 둘 다 확인해야 하는 이유: 프로세스가 포트를 열어도 UFW가 막으면
+    외부 접근이 안 되고, UFW가 허용해도 프로세스가 없으면 접속이 안 된다.
+
+- Default VPC는 모든 서브넷이 Public으로 구성된다.
+  - Auto-assign Public IP가 켜져 있어서 어느 서브넷에 EC2를 올려도
+    자동으로 Public IP가 붙는다.
+  - 실무에서는 DB 같은 리소스를 Private 서브넷에 배치해야 한다.
+
+- IAM Role은 EC2 인스턴스에 하나만 붙일 수 있다.
+  - EC2 터미널에서 Terraform을 실행하면 EC2 IAM Role의 권한으로
+    AWS API가 호출된다.
+  - EC2FullAccess와 S3FullAccess는 편의상 추가한 게 아니라
+    Terraform 운영과 Remote State S3 접근에 실제로 필요했다.
+  - Docker 컨테이너로 역할을 나눠도 EC2 IAM Role을 공유하므로
+    컨테이너 단위 권한 분리는 ECS Task Role 또는 IRSA 같은
+    별도 방식이 필요하다.
+
+## 왜 이 기술/방법을 선택했는가
+
+| 항목 | 선택한 것 | 대안 | 선택 이유 |
+|------|-----------|------|-----------|
+| VPC | Default VPC | 직접 설계 | 운영/장애대응 집중이 목적, 네트워크 설계 복잡도 최소화 |
+| SSH 소스 | 0.0.0.0/0 | 특정 IP 제한 | 고정 IP 없는 환경, PasswordAuthentication no로 보완 |
+| IAM Role | 단일 Role | 역할별 분리 | EC2 1대 구조상 분리 불가, 필요한 권한만 부여 |
+
+## 오늘 처음 안 사실
+
+| 몰랐던 것 | 알게 된 것 | 왜 그렇게 되는지 |
+|-----------|-----------|----------------|
+| ss와 ufw가 같은 걸 본다고 생각함 | 완전히 다른 레이어를 본다 | ss는 프로세스, ufw는 방화벽 정책 |
+| Docker로 나누면 권한 분리 가능할 줄 알았음 | EC2 IAM Role을 공유해서 분리 안 됨 | 컨테이너는 EC2 메타데이터에서 자격증명을 가져옴 |
+
+## 결과/증거
+
+- decisions/0010-aws-network-design.md 작성 완료
+
+## 막힌 점
+
+- IAM Role 분리 방향을 생각했을 때 Docker로 나누면 되지 않을까 생각했지만
+  컨테이너가 결국 EC2 IAM Role을 공유한다는 점을 이해하는 데 시간이 걸렸다.
+  컨테이너 단위 권한 분리는 ECS나 EKS 레벨에서 해결해야 한다는 걸 알게 됐다.
+
