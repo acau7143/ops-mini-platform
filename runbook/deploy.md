@@ -76,6 +76,61 @@ curl -I http://localhost/app
 
 ---
 
+## 자동 배포 (deploy.sh)
+
+`scripts/deploy.sh` 를 사용하면 pull → up → 헬스체크 → 실패 시 롤백까지 자동으로 처리한다.
+
+### 사전 확인
+
+```bash
+systemctl is-active docker
+systemctl is-active docker.socket
+docker ps
+curl -I http://localhost:8080
+```
+
+### 실행
+
+```bash
+./scripts/deploy.sh
+```
+
+스크립트 내부 흐름:
+
+| 순서 | 내용 |
+|------|------|
+| 1 | `evidence/{timestamp}-deploy/` 디렉토리 생성 |
+| 2 | 현재 컨테이너 상태 → `before.txt` 저장 |
+| 3 | `docker compose pull` — 최신 이미지 수신 |
+| 4 | `docker compose up -d` — 컨테이너 재기동 |
+| 5 | `healthcheck()` — `localhost:8080` 에 3회 응답 확인 |
+| 6 | 성공 시 → `after.txt` 저장, `exit 0` |
+| 7 | 실패 시 → `rollback()` 실행, `exit 1` |
+
+### 결과 확인
+
+```bash
+# before/after 비교
+cat evidence/{timestamp}-deploy/before.txt
+cat evidence/{timestamp}-deploy/after.txt
+
+# 롤백 여부 확인
+cat evidence/{timestamp}-deploy/deploy.log
+```
+
+### 실패 시 대응
+
+```bash
+# deploy.log 에서 롤백 여부 확인
+cat evidence/{timestamp}-deploy/deploy.log
+
+# 컨테이너 상태 확인
+docker ps
+curl -I http://localhost:8080
+```
+
+---
+
 ## 중요 원칙
 
 | 원칙 | 이유 |
@@ -84,3 +139,4 @@ curl -I http://localhost/app
 | reload 전 nginx -t 필수 | 문법 오류로 서비스 중단 방지 |
 | 배포 후 curl 검증 필수 | 변경이 실제 반영됐는지 확인 |
 | error.log 확인 | 502 등 silent 장애 감지 |
+| deploy.sh 사용 시 deploy.log 확인 | 롤백 여부 파악 |
