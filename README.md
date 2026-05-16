@@ -47,6 +47,13 @@
 - Day26: `terraform apply` 3회 시도 (IAM 권한 오류 → 인스턴스 타입 오류 → 성공), `terraform destroy`로 정리 (INC-013)
 - Day27: `variables.tf` / `terraform.tfvars` / `outputs.tf` 작성, 하드코딩 제거 후 변수 구조화
 - Day28: Week4 회고, `security-baseline.sh` 심볼릭 링크 오탐 수정 (`find -L`), 고정 validate 전체 PASS 확인
+- Day29: Terraform Remote State 도입, S3 버킷(`ops-mini-tfstate`)에 `terraform.tfstate` 저장, `backend.tf` 작성, 버킷 이름 오타로 `init` 단계 실패 재현 및 복구
+- Day30: AWS 설계 근거 문서화 (`decisions/0010`), VPC/Security Group/IAM Role 구성 이유 정리, EC2 1대 구조에서 IAM Role 분리 한계 확인
+- Day31: 네트워크 트러블슈팅 1 — `ss -lntp`로 포트 점유 프로세스 특정, nginx↔컨테이너 포트 충돌 두 방향 재현 및 복구 (INC-014)
+- Day32: 네트워크 트러블슈팅 2 — `tcpdump`로 TCP 3-way handshake 및 RST 패킷 직접 확인, nginx 경유 요청과 직접 요청 패킷 흐름 비교
+- Day33: `scripts/deploy.sh` 작성 — `log()` / `healthcheck()` / `rollback()` 함수 구조, 헬스체크 실패 시 자동 롤백 로직 구현 및 검증
+- Day34: 배포 실패 자동 롤백 incident 문서화 (INC-015), `runbook/deploy.md` 자동 배포 섹션 추가
+- Day35: Week5 회고 작성, README Day29~35 반영
 
 ## 레포 구조
 
@@ -88,5 +95,3 @@ graph TD
     Docs -.->|"push artifacts"| GH
     HC -.-> GH
 ```
-
-
