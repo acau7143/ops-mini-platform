@@ -5,7 +5,7 @@ RED='\033[0;31m'      # 빨강 (실패)
 GREEN='\033[0;32m'    # 초록 (성공)
 YELLOW='\033[0;33m'   # 노랑 (경고)
 NC='\033[0m'          # 색상 해제
-
+BLUE='\033[0;34m'     # 제목 구분용
 
 # script 실행 할 때 sudo 를 붙였는지 검사
 if [ "$EUID" -ne 0 ]; then
@@ -13,9 +13,12 @@ if [ "$EUID" -ne 0 ]; then
   exit 1
 fi
 
-
 # 현재 시간
-TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
+TIMESTAMP=$(date '+%Y-%m-%d_%H-%M-%S')
+OUTDIR="evidence/${TIMESTAMP}-healthcheck"
+mkdir -p "$OUTDIR"
+exec > >(tee "$OUTDIR/result.txt") 2>&1   # ← 여기서부터 result.txt에 저장 시작
+
 
 echo "================================="
 echo "Baseline Check - $TIMESTAMP"
@@ -26,10 +29,10 @@ RESULT=$(systemctl is-active nginx)
 
 # 검사: nginx가 "active"인가?
 if [[ "$RESULT" == "active" ]]; then
-        echo -e "${GREEN}PASS${NC} nginx state = ${RESULT}"
-        CHECK1=0
+	echo -e "${GREEN}PASS${NC} nginx state = ${RESULT}"
+	CHECK1=0
 else
-        echo -e "${RED}FAIL${NC} nginx state = ${RESULT}"
+	echo -e "${RED}FAIL${NC} nginx state = ${RESULT}"
         CHECK1=1
 fi
 
@@ -57,34 +60,45 @@ else
     CHECK3=1
 fi
 # ===== Check 4: 서버 업타임 =====
-echo "4. Server Uptime"
+echo -e "${BLUE}4. Server Uptime${NC}"
 uptime
 
 # ===== Check 5: 디스크 사용량 =====
-echo "5. Disk Usage (df -h)"
+echo -e "${BLUE}5. Disk Usage (df -h)${NC}"
 df -h
 
 # ===== Check 6:  메모리 상태 =====
- echo "6. Memory (free -h)"
+ echo -e "${BLUE}6. Memory (free -h)${NC}"
 free -h
 
 
 # ===== Check 7: nginx access log 최근 20줄 =====
-echo "7. nginx Access Log (last 20 lines)"
+echo -e "${BLUE}7. nginx Access Log (last 20 lines)${NC}"
 tail -n 20 /var/log/nginx/access.log
 
 # ===== Check 8: nginx error log 최근 20줄 =====
-echo "8. nginx Error Log (last 20 lines)"
+echo -e  "${BLUE}8. nginx Error Log (last 20 lines)${NC}"
 tail -n 20 /var/log/nginx/error.log
 
 #9. 앱 컨테이너 실행 상태 확인
-echo "9. Docker Container Status"
+echo -e "${BLUE}9. Docker Container Status${NC}"
 docker ps
 
 #10. 앱 HTTP 응답 확인
-echo "10. App HTTP Check"
+echo -e  "${BLUE}10. App HTTP Check${NC}"
 curl -I http://localhost:8080
 
+if [[ $CHECK1 -eq 1 ]]; then
+        echo "nginx가 inactive 상태이다." >> "$OUTDIR/fail_summary.txt"
+fi
+if [[ $CHECK2 -eq 1 ]]; then
+        echo "HTTP 상태가 200이 아니다." >> "$OUTDIR/fail_summary.txt"
+fi
+if [[ $CHECK3 -eq 1 ]]; then
+        echo "port80이 열려 있지 않다." >> "$OUTDIR/fail_summary.txt"
+fi
+
+ 
 
 # ===== 최종 결과 =====
 echo "=========================================="
@@ -92,6 +106,7 @@ echo "=========================================="
 # 3개 체크 중 몇 개 성공했는가?
 TOTAL_PASS=$((3 - CHECK1 - CHECK2 - CHECK3))
 echo "Result: $TOTAL_PASS / 3 checks passed"
+
 
 # 3개 모두 성공? → 종료 코드 0 (성공)
 # 하나라도 실패? → 종료 코드 1 (실패)
@@ -102,4 +117,6 @@ else
     echo -e "${RED}Overall: FAIL${NC}"
     exit 1
 fi
+
+
 
