@@ -1,7 +1,7 @@
 # scripts/
 
 운영 자동화를 위한 셸 스크립트 모음입니다.  
-각 스크립트는 독립적으로 실행할 수 있으며 장애 대응 흐름에서 유기적으로 연결됩니다.
+각 스크립트는 독립적으로 실행할 수 있으며, 장애 대응 흐름에서 유기적으로 연결됩니다.
 
 ---
 
@@ -24,13 +24,15 @@
 
 **점검 항목**
 
-- nginx 서비스 활성화 여부 (`systemctl is-active nginx`)
-- localhost HTTP 응답 상태 (`curl` → 200 여부)
-- 포트 80 리스닝 여부 (`ss -lntp`)
-- 서버 업타임, 디스크, 메모리 정보
-- nginx access / error 로그 최근 20줄
-- Docker 컨테이너 상태 (`docker ps`)
-- 앱 HTTP 응답 (`curl -I http://localhost:8080`)
+| 번호 | 항목 | 기준 |
+|---|---|---|
+| 1 | nginx 서비스 상태 | `systemctl is-active nginx` → active 여부 |
+| 2 | localhost HTTP 응답 | `curl` → 200 여부 |
+| 3 | 포트 80 리스닝 | `ss -lntp` → :80 리스닝 여부 |
+| 4 | 서버 업타임 / 디스크 / 메모리 | 기록 전용 (PASS/FAIL 없음) |
+| 5 | nginx access / error 로그 | 최근 20줄 기록 전용 |
+| 6 | Docker 컨테이너 상태 | `docker ps` 기록 전용 |
+| 7 | 앱 HTTP 응답 | `curl -I http://localhost:8080` 기록 전용 |
 
 **실행 방법**
 
